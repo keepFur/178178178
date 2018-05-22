@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link href="./src/css/normalize.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/element-ui/2.3.8/theme-chalk/index.css" rel="stylesheet">
+    <link href="./src/css/app.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!--[if lte IE 8]>
+    <p class="browserupgrade">您的浏览器版本老的可笑, 请到 <a href="http://browsehappy.com/">这里</a> 更新, 以获取最佳的体验</p>
+    <![endif]-->
+        <!-- 页面结构 头部（顶部导航-二级导航） 中部（交易金额-轮播图-网站介绍-网站公告-产品介绍）底部（链接-版权）-->
+        <!-- class 命名一般都是使用中横线分割  id一般采用的是驼峰命名 -->
+        <!--头部  -->
+        <header>
+            <nav class="top">
+                <span class="tel pull-left">现在时间是：
+                    <span>{{nowDate}}</span>
+                </span>
+                <ul class="text-right">
+                    <li>
+                        <a href="#" @click="userLoginHandler">登录</a>
+                    </li>
+                    <li>
+                        <a href="#" @click="userRegisterHandler">免费注册</a>
+                    </li>
+                    <li>
+                        <a href="#" @click="aboutSiteHandler">关于</a>
+                    </li>
+                    <li>
+                        <a href="#" @click="helpHandler">帮助</a>
+                    </li>
+                    <li>
+                        <a href="#" title="保存之后，妈妈再也不用担心我找不到网址了！" @click="saveDeskHandler">保存到桌面</a>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="main">
+                <!-- 此处两种方式  一个是使用直接潜入到结构中，还有一种是背景图片，一般logo的话 是使用img标签 -->
+                <a href="#" class="brand pull-left">
+                    <img src="./src/imgs/logo@1x.png" alt="回到首页">
+                </a>
+                <ul class="text-right">
+                    <li>
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a href="#" @click="vipCenterHandler">会员中心</a>
+                    </li>
+                    <li>
+                        <a href="#worldKB">全国空包</a>
+                    </li>
+                    <li>
+                        <a href="#mobileCollege">无线流量</a>
+                    </li>
+                    <li>
+                        <a href="#mobileCollege">宝贝收藏</a>
+                    </li>
+                    <li>
+                        <a href="#" @click.prevent="helpHandler">联系客服</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <!-- 中间内容 根据规范，section和article都需要有标题 -->
+        <div class="container">
+            <!-- 交易信息 -->
+            <div class="transaction clearfix">
+                <div class="trans-content">
+                    <div class="trans-data pull-left text-left">
+                        <span>平台累计成交金额</span>
+                        <span class="trans-money">8888</span>
+                        <span>万元</span>
+                    </div>
+                    <div class="trans-data pull-left text-left">
+                        <span>过去7日成交金额</span>
+                        <span class="trans-money">18888</span>
+                        <span>万元</span>
+                    </div>
+                    <div class="trans-report pull-right">
+                        <a href="#" @click.prevent="viewOperationReportHandler">查看平台运营报告</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 广告轮播图 -->
+            <div class="ad">
+                <el-carousel height="360px" trigger="click">
+                    <el-carousel-item>
+                        <img src="./src/imgs/ad001-l.png" alt="轮播图1">
+                    </el-carousel-item>
+                    <el-carousel-item>
+                        <img src="./src/imgs/ad002-l.png" alt="轮播图2">
+                    </el-carousel-item>
+                    <el-carousel-item>
+                        <img src="./src/imgs/ad003-l.png" alt="轮播图3">
+                    </el-carousel-item>
+                </el-carousel>
+            </div>
+            <!-- 网站功能介绍 -->
+            <section class="feature">
+                <div class="item">
+                    <h3 class="text-center">
+                        安全
+                    </h3>
+                    <p>实名小号
+                        <br/>真实搜索
+                        <br/> 真实操作
+                    </p>
+                </div>
+                <div class="item">
+                    <h3 class="text-center">
+                        省心
+                    </h3>
+                    <p>任意金额购买
+                        <br/>最好的售后
+                        <br/>让你无忧购买
+                    </p>
+                </div>
+                <div class="item">
+                    <h3 class="text-center">
+                        权威
+                    </h3>
+                    <p>全国不同IP
+                        <br/>保证100%不会被清洗
+                        <br/>商品种类丰富
+                    </p>
+                </div>
+            </section>
+            <!-- 公告 -->
+            <div class="notice clearfix">
+                <a href="#" class="pull-left text-ellipsis">
+                    <span>2018-5-19</span>
+                    元旦期间业务受理及值班公告元旦期间业务受理及值班公告元旦期间业务受理及值班公告元旦期间业务受 理及值班公告元旦期间业务受理及值班公告元旦期间业务受理及值班公告元旦期间业务受理及值班公告元旦期间业务受理及值班公告元旦期间业务受理及值班公告
+                </a>
+                <a href="#" class="more pull-right" @click="moreNoticeHandler">更多公告</a>
+            </div>
+            <!-- 产品 -->
+            <section class="product clearfix" id="mobileCollege">
+                <h2 class="pull-left text-center">
+                    无线流量&宝贝收藏
+                    <em>实名小号</em>
+                    <em>真实搜索</em>
+                    <em>真实操作</em>
+                </h2>
+                <div class="product-content pull-right">
+                    <div class="item clearfix">
+                        <h3>
+                            <em>宝贝</em>任务
+                            <i>
+                                <el-select v-model="bbTaskSelected" placeholder="请选择快递平台" size="mini">
+                                    <el-option v-for="(bb,index) in bbTask" :label="bb.name" :value="bb.id" :key="index">
+                                    </el-option>
+                                </el-select>
+                            </i>
+                        </h3>
+                        <div class="info">
+                            <p>
+                                普通会员：
+                                <span class="year-rate">
+                                    {{bbTask[bbTaskSelected].price.ptvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                VIP会员：
+                                <span class="year-rate">
+                                    {{bbTask[bbTaskSelected].price.vip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                金牌代理商：
+                                <span class="year-rate">
+                                    {{bbTask[bbTaskSelected].price.jpvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="buy">
+                            <a href="#">立即涨粉</a>
+                        </div>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>
+                            <em>店铺</em>任务
+                            <i>
+                                <el-select v-model="dpTaskSelected" placeholder="请选择快递平台" size="mini">
+                                    <el-option v-for="(dp,index) in dpTask" :label="dp.name" :value="dp.id" :key="index">
+                                    </el-option>
+                                </el-select>
+                            </i>
+                        </h3>
+                        <div class="info">
+                            <p>
+                                普通会员：
+                                <span class="year-rate">
+                                    {{dpTask[dpTaskSelected].price.ptvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                VIP会员：
+                                <span class="year-rate">
+                                    {{dpTask[dpTaskSelected].price.vip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                金牌代理商：
+                                <span class="year-rate">
+                                    {{dpTask[dpTaskSelected].price.jpvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="buy">
+                            <a href="#">立即涨粉</a>
+                        </div>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>
+                            <em>京东</em>任务
+                            <i>
+                                <el-select v-model="jdTaskSelected" placeholder="请选择快递平台" size="mini">
+                                    <el-option v-for="(jd,index) in jdTask" :label="jd.name" :value="jd.id" :key="index">
+                                    </el-option>
+                                </el-select>
+                            </i>
+                        </h3>
+                        <div class="info">
+                            <p>
+                                普通会员：
+                                <span class="year-rate">
+                                    {{jdTask[jdTaskSelected].price.ptvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                VIP会员：
+                                <span class="year-rate">
+                                    {{jdTask[jdTaskSelected].price.vip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                金牌代理商：
+                                <span class="year-rate">
+                                    {{jdTask[jdTaskSelected].price.jpvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="buy">
+                            <a href="#">立即涨粉</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 产品 -->
+            <section class="product clearfix" id="worldKB">
+                <h2 class="pull-left text-center">
+                    全国空包
+                    <em>全国发全国</em>
+                    <em>提供底单</em>
+                    <em>安全无忧</em>
+                </h2>
+                <div class="product-content pull-right">
+                    <div class="item clearfix">
+                        <h3>
+                            <em>淘宝</em>平台
+                            <i>
+                                <el-select v-model="tbKBSelceted" placeholder="请选择快递平台" size="mini">
+                                    <el-option v-for="(tb,index) in tbKB" :label="tb.name" :value="tb.id" :key="index">
+                                    </el-option>
+                                </el-select>
+                            </i>
+                        </h3>
+                        <div class="info">
+                            <p>
+                                普通会员：
+                                <span class="year-rate">
+                                    {{tbKB[tbKBSelceted].price.ptvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                VIP会员：
+                                <span class="year-rate">
+                                    {{tbKB[tbKBSelceted].price.vip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                金牌代理商：
+                                <span class="year-rate">
+                                    {{tbKB[tbKBSelceted].price.jpvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="buy">
+                            <a href="#">立即下单</a>
+                        </div>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>
+                            <em>京东</em>平台
+                            <i>
+                                <el-select v-model="jdKBSelceted" placeholder="请选择快递平台" size="mini">
+                                    <el-option v-for="(jd,index) in jdKB" :label="jd.name" :value="jd.id" :key="index">
+                                    </el-option>
+                                </el-select>
+                            </i>
+                        </h3>
+                        <div class="info">
+                            <p>
+                                普通会员：
+                                <span class="year-rate">
+                                    {{jdKB[jdKBSelceted].price.ptvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                VIP会员：
+                                <span class="year-rate">
+                                    {{jdKB[jdKBSelceted].price.vip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                金牌代理商：
+                                <span class="year-rate">
+                                    {{jdKB[jdKBSelceted].price.jpvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="buy">
+                            <a href="#">立即下单</a>
+                        </div>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>
+                            <em>拼多多</em>平台
+                            <i>
+                                <el-select v-model="pddKBSelceted" placeholder="请选择快递平台" size="mini">
+                                    <el-option v-for="(pdd,index) in pddKB" :label="pdd.name" :value="pdd.id" :key="index">
+                                    </el-option>
+                                </el-select>
+                            </i>
+                        </h3>
+                        <div class="info">
+                            <p>
+                                普通会员：
+                                <span class="year-rate">
+                                    {{pddKB[pddKBSelceted].price.ptvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                VIP会员：
+                                <span class="year-rate">
+                                    {{pddKB[pddKBSelceted].price.vip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                金牌代理商：
+                                <span class="year-rate">
+                                    {{pddKB[pddKBSelceted].price.jpvip}} 元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="buy">
+                            <a href="#" @click.prevent="buyHandler">立即下单</a>
+                        </div>
+                    </div>
+                    <div class="item clearfix">
+                        <h3>
+                            <em>圆通-韵达</em>（推荐）
+                            <i>
+                                全网通用「21点前下单，2小时揽件」
+                            </i>
+                        </h3>
+                        <div class="info">
+                            <p>
+                                普通会员：
+                                <span class="year-rate">
+                                    2.1元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                VIP会员：
+                                <span class="year-rate">
+                                    2.0元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                            <p>
+                                金牌代理商：
+                                <span class="year-rate">
+                                    1.9元
+                                    <i>单</i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="buy">
+                            <a href="#">立即下单</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 底部导航 -->
+            <nav class="footer">
+                <div class="footer-content clearfix">
+                    <!-- 此处的logo不需要链接，直接使用css处理 -->
+                    <p class="brand pull-left"></p>
+                    <ul>
+                        <li class="title">
+                            关于我们
+                        </li>
+                        <li>
+                            <a href="#">公司介绍</a>
+                        </li>
+                        <li>
+                            <a href="#">业务模式</a>
+                        </li>
+                        <li>
+                            <a href="#">合作机构</a>
+                        </li>
+                        <li>
+                            <a href="#">服务协议</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="title">
+                            风险防范
+                        </li>
+                        <li>
+                            <a href="#">账户安全</a>
+                        </li>
+                        <li>
+                            <a href="#">安全保障</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="title">
+                            理财产品
+                        </li>
+                        <li>
+                            <a href="#">固定期限</a>
+                        </li>
+                        <li>
+                            <a href="#">债券/散标</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="title">
+                            交易帮助
+                        </li>
+                        <li>
+                            <a href="#">购买</a>
+                        </li>
+                        <li>
+                            <a href="#">赎回</a>
+                        </li>
+                        <li>
+                            <a href="#">提现</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="title">
+                            机构服务
+                        </li>
+                        <li>
+                            <a href="#">机构中心</a>
+                        </li>
+                        <li>
+                            <a href="#">合作联系</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- 底部 -->
+        <footer>
+            <ul class="text-center">
+                <li>
+                    <span class="icon icon-zfywxkz">支付业务许可证</span>
+                </li>
+                <li>
+                    <span class="icon icon-pcirk">PIC认证</span>
+                </li>
+                <li>
+                    <span class="icon icon-visayz">VISA验证</span>
+                </li>
+                <li>
+                    <span class="icon icon-vsjmfw">Versign加密服务</span>
+                </li>
+                <li>
+                    <span class="icon icon-wlgs">网络工商</span>
+                </li>
+                <li>
+                    <span class="icon icon-rzcx">电子商务协会认证诚信网</span>
+                </li>
+                <li>
+                    <span class="icon icon-bjgs">北京工商</span>
+                </li>
+            </ul>
+            <p class="text-center">178178科技网公司版权所有 @2016-2018 QQ群1：84152556（满）， QQ群2：487845121（满）QQ群3：457845121（推荐）</p>
+        </footer>
+        <!-- 用户登录模态框 -->
+        <el-dialog title="用户登录" :visible.sync="dialogLoginVisible" width="20%">
+            <el-form :model="loginForm" ref="loginFormEle" :rules="loginFormRules">
+                <el-form-item label="用户名">
+                    <el-input v-model="loginForm.username" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model="loginForm.password" auto-complete="off" type="password"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogLoginVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmLoginHandler">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 用户注册模态框 -->
+        <el-dialog title="免费注册" :visible.sync="dialogRegisterVisible" width="30%">
+            <el-form :model="registerForm" ref="registerFormEle" :rules="registerFormRules">
+                <el-form-item label="用户名">
+                    <el-input v-model="registerForm.username" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input v-model="registerForm.password" auto-complete="off" type="password"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码">
+                    <el-input v-model="registerForm.confirmPassword" auto-complete="off" type="password"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogRegisterVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmRegisterHandler">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 关于弹出框 -->
+        <el-dialog title="关于本站" :visible.sync="dialogAboutVisible">
+            <el-card shadow="hover">
+                本站不是最便宜的，但售后是最好的！！！
+            </el-card>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogAboutVisible = false">关 闭</el-button>
+                <el-button type="primary" @click="dialogAboutVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 帮助弹出框 -->
+        <el-dialog title="联系方式" :visible.sync="dialogHelpVisible">
+            <el-card shadow="hover">
+                QQ:838472035
+            </el-card>
+            <el-card shadow="hover">
+                邮箱:keepFur@163.com
+            </el-card>
+            <el-card shadow="hover">
+                服务时间:9:00-22:00
+            </el-card>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogHelpVisible = false">关 闭</el-button>
+                <el-button type="primary" @click="dialogHelpVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 更多公告弹出框 -->
+        <el-dialog title="公告列表" :visible.sync="dialogMoreNoticeVisible">
+            <el-collapse v-model="activeNames" accordion>
+                <el-collapse-item title="一致性 Consistency" name="1">
+                    <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+                    <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                </el-collapse-item>
+                <el-collapse-item title="反馈 Feedback" name="2">
+                    <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
+                    <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+                </el-collapse-item>
+                <el-collapse-item title="效率 Efficiency" name="3">
+                    <div>简化流程：设计简洁直观的操作流程；</div>
+                    <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+                    <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+                </el-collapse-item>
+                <el-collapse-item title="可控 Controllability" name="4">
+                    <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+                    <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+                </el-collapse-item>
+            </el-collapse>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogMoreNoticeVisible = false">关 闭</el-button>
+                <el-button type="primary" @click="dialogMoreNoticeVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js" type="text/javascript"></script>
+<!-- import JavaScript -->
+<script src="https://cdn.bootcss.com/element-ui/2.3.8/index.js" type="text/javascript"></script>
+<script src="./app.js" type="text/javascript"></script>
+
+</html>

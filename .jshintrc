@@ -1,0 +1,31 @@
+{
+  "globals": {
+    "flyer": false,
+    "window": false,
+    "document": false,
+    "$": false,
+    "console": false,
+    "core": false,
+    "Vue": false
+  },
+  "bitwise": true,
+  "curly": true,
+  "strict": true,
+  "maxparams": 4,
+  "globalstrict": true,
+  "proto": false,
+  "esversion": 6,
+  "varstmt": false,
+  "maxlen": 600,
+  "maxstatements": 200,
+  "eqeqeq": true,
+  "camelcase": false,
+  "undef": true,
+  "evil": false,
+  "node": true,
+  "browser": true,
+  "validthis": true,
+  "sub": true,
+  "laxbreak": true,
+  "asi": true
+}
