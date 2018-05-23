@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- import CSS -->
     <link href="./src/css/normalize.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/element-ui/2.3.8/theme-chalk/index.css" rel="stylesheet">
@@ -50,7 +52,7 @@
                         <a href="#">首页</a>
                     </li>
                     <li>
-                        <a href="#" @click="vipCenterHandler">会员中心</a>
+                        <a href="./src/html/front/vip_center.html" @click="vipCenterHandler">会员中心</a>
                     </li>
                     <li>
                         <a href="#worldKB">全国空包</a>
@@ -517,12 +519,12 @@
             <p class="text-center">178178科技网公司版权所有 @2016-2018 QQ群1：84152556（满）， QQ群2：487845121（满）QQ群3：457845121（推荐）</p>
         </footer>
         <!-- 用户登录模态框 -->
-        <el-dialog title="用户登录" :visible.sync="dialogLoginVisible" width="20%">
-            <el-form :model="loginForm" ref="loginFormEle" :rules="loginFormRules">
-                <el-form-item label="用户名">
+        <el-dialog title="用户登录" :visible.sync="dialogLoginVisible" width="30%">
+            <el-form :model="loginForm" ref="loginFormEle" :rules="loginFormRules" status-icon>
+                <el-form-item label="用户名" prop="username">
                     <el-input v-model="loginForm.username" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码">
+                <el-form-item label="密码" prop="password">
                     <el-input v-model="loginForm.password" auto-complete="off" type="password"></el-input>
                 </el-form-item>
             </el-form>
@@ -533,20 +535,20 @@
         </el-dialog>
         <!-- 用户注册模态框 -->
         <el-dialog title="免费注册" :visible.sync="dialogRegisterVisible" width="30%">
-            <el-form :model="registerForm" ref="registerFormEle" :rules="registerFormRules">
-                <el-form-item label="用户名">
+            <el-form :model="registerForm" ref="registerFormEle" :rules="registerFormRules" status-icon>
+                <el-form-item label="用户名" prop="username">
                     <el-input v-model="registerForm.username" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码">
+                <el-form-item label="密码" prop="password">
                     <el-input v-model="registerForm.password" auto-complete="off" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="确认密码">
+                <el-form-item label="确认密码" prop="confirmPassword">
                     <el-input v-model="registerForm.confirmPassword" auto-complete="off" type="password"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogRegisterVisible = false">取 消</el-button>
-                <el-button type="primary" @click="confirmRegisterHandler">确 定</el-button>
+                <el-button type="primary" @click="confirmRegisterHandler('registerFormEle')">确 定</el-button>
             </div>
         </el-dialog>
         <!-- 关于弹出框 -->
