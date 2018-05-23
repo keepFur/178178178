@@ -25,6 +25,8 @@ new Vue({
       dialogHelpVisible: false,
       // 更多公共
       dialogMoreNoticeVisible: false,
+      // 会员中心
+      visibleVipCenter: true,
       // 登录表单
       loginForm: {
         username: '',
@@ -116,7 +118,8 @@ new Vue({
         {
           id: 0,
           type: 'lbkd',
-          name: '龙邦快递「淘宝、天猫专用」',
+          alias: '龙邦速递',
+          name: '龙邦速递「淘宝、天猫专用」',
           price: {
             ptvip: 1.8,
             vip: 1.7,
@@ -126,6 +129,7 @@ new Vue({
         {
           id: 1,
           type: 'bskd',
+          alias: '百世快递',
           name: '百世快递「淘宝、天猫专用」',
           price: {
             ptvip: 2.2,
@@ -136,6 +140,7 @@ new Vue({
         {
           id: 2,
           type: 'ytkd',
+          alias: '圆通快递',
           name: '圆通快递「淘宝、天猫专用」',
           price: {
             ptvip: 1.6,
@@ -150,7 +155,8 @@ new Vue({
         {
           id: 0,
           type: 'lbkd',
-          name: '龙邦快递「京东专用」',
+          alias: '龙邦速递',
+          name: '龙邦速递「京东专用」',
           price: {
             ptvip: 1.4,
             vip: 1.3,
@@ -160,6 +166,7 @@ new Vue({
         {
           id: 1,
           type: 'stkd',
+          alias: '申通快递',
           name: '申通快递「京东专用」',
           price: {
             ptvip: 1.6,
@@ -174,6 +181,7 @@ new Vue({
         {
           id: 0,
           type: 'gtkd',
+          alias: '国通快递',
           name: '国通快递「拼多多专用」',
           price: {
             ptvip: 1.0,
@@ -184,7 +192,8 @@ new Vue({
         {
           id: 1,
           type: 'lbkd',
-          name: '龙邦快递「拼多多专用」',
+          alias: '龙邦速递',
+          name: '龙邦速递「拼多多专用」',
           price: {
             ptvip: 1.1,
             vip: 1.0,
@@ -193,6 +202,7 @@ new Vue({
         },
         {
           id: 2,
+          alias: '申通快递',
           type: 'stkd',
           name: '申通快递「拼多多专用」',
           price: {
@@ -204,6 +214,7 @@ new Vue({
         {
           id: 3,
           type: 'bskd',
+          alias: '百世快递',
           name: '百世快递「拼多多专用」',
           price: {
             ptvip: 1.5,
@@ -214,6 +225,7 @@ new Vue({
         {
           id: 4,
           type: 'yfkd',
+          alias: '亚风快递',
           name: '亚风快递「拼多多专用」',
           price: {
             ptvip: 0.85,
@@ -224,6 +236,7 @@ new Vue({
         {
           id: 5,
           type: 'kfwkd',
+          alias: '快服务快递',
           name: '快服务快递「平多多专用」',
           price: {
             ptvip: 0.9,
@@ -388,7 +401,44 @@ new Vue({
           }
         }
       ],
-      activeNames: '1'
+      activeNames: '1',
+      // 下单中心的数据，空包的
+      kbBuyForm: {
+        kdType: 0,
+        toAddress: '',
+        packageWeight: 1.0,
+        toUserInfo: ''
+      },
+      kbBuyFormRules: {
+        packageWeight: [
+          {
+            required: true,
+            message: '包裹重量不能为空'
+          },
+          {
+            type: 'number',
+            message: '包裹重量只能是数字'
+          }
+        ],
+        toUserInfo: [
+          {
+            required: true,
+            message: '收件人信息不能为空'
+          }
+        ],
+        kdType: [
+          {
+            required: true,
+            message: '快递类型不能为空'
+          }
+        ],
+        toAddress: [
+          {
+            required: true,
+            message: '发货地址不能为空'
+          }
+        ]
+      }
     };
   },
   methods: {
@@ -435,10 +485,7 @@ new Vue({
     },
     // 会员中心
     vipCenterHandler: function() {
-      this.$message({
-        message: '跳转到会员中心',
-        type: 'success'
-      });
+      this.visibleVipCenter = true;
     },
     // 确认登录
     confirmLoginHandler: function() {
@@ -467,6 +514,13 @@ new Vue({
         } else {
           return false;
         }
+      });
+    },
+    // 立即下单
+    onSubmitHandler: function() {
+      this.$message({
+        message: '购买成功',
+        type: 'success'
       });
     }
   }

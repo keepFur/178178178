@@ -52,7 +52,7 @@
                         <a href="#">首页</a>
                     </li>
                     <li>
-                        <a href="./src/html/front/vip_center.html" @click="vipCenterHandler">会员中心</a>
+                        <a href="#vipCenter" @click="vipCenterHandler">会员中心</a>
                     </li>
                     <li>
                         <a href="#worldKB">全国空包</a>
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <!-- 广告轮播图 -->
-            <div class="ad">
+            <div class="ad" v-if="!visibleVipCenter">
                 <el-carousel height="360px" trigger="click">
                     <el-carousel-item>
                         <img src="./src/imgs/ad001-l.png" alt="轮播图1">
@@ -142,7 +142,7 @@
                 <a href="#" class="more pull-right" @click="moreNoticeHandler">更多公告</a>
             </div>
             <!-- 产品 -->
-            <section class="product clearfix" id="mobileCollege">
+            <section class="product clearfix" id="mobileCollege" v-if="!visibleVipCenter">
                 <h2 class="pull-left text-center">
                     无线流量&宝贝收藏
                     <em>实名小号</em>
@@ -264,7 +264,7 @@
                 </div>
             </section>
             <!-- 产品 -->
-            <section class="product clearfix" id="worldKB">
+            <section class="product clearfix" id="vipCenter" v-if="!visibleVipCenter">
                 <h2 class="pull-left text-center">
                     全国空包
                     <em>全国发全国</em>
@@ -418,6 +418,136 @@
                         </div>
                     </div>
                 </div>
+            </section>
+            <!-- 会员中心的内容 -->
+            <section class="product clearfix" v-if="visibleVipCenter">
+                <el-row class="tac">
+                    <el-col :span="3">
+                        <el-card :body-style="{ padding: '0px' }">
+                            <img src="./src/imgs/logo@1x.png">
+                            <div style="padding: 14px;" class="text-center">
+                                <p>亲爱的「aaa」</p>
+                                <p>欢迎来到178科技网</p>
+                                <p>当前账户余额：100元</p>
+                            </div>
+                        </el-card>
+                        <el-menu default-active="1-2">
+                            <el-submenu index="1">
+                                <template slot="title">
+                                    <i class="el-icon-upload"></i>
+                                    <span>全国空包专区</span>
+                                </template>
+                                <el-menu-item index="1-1">添加/管理发货地</el-menu-item>
+                                <el-menu-item index="1-2">淘宝下单</el-menu-item>
+                                <el-menu-item index="1-3">京东下单</el-menu-item>
+                                <el-menu-item index="1-4">拼多多下单</el-menu-item>
+                                <el-menu-item index="1-5">Excel表格下单</el-menu-item>
+                                <el-menu-item index="1-6">圆通-韵达（推荐）</el-menu-item>
+                                <el-menu-item index="1-7">下单记录</el-menu-item>
+                            </el-submenu>
+                            <el-submenu index="2">
+                                <template slot="title">
+                                    <i class="el-icon-phone-outline"></i>
+                                    <span>无线流量专区</span>
+                                </template>
+                                <el-menu-item index="2-1">宝贝任务</el-menu-item>
+                                <el-menu-item index="2-2">店铺任务</el-menu-item>
+                                <el-menu-item index="2-3">京东任务</el-menu-item>
+                                <el-menu-item index="2-4">任务记录</el-menu-item>
+                            </el-submenu>
+                            <el-submenu index="3">
+                                <template slot="title">
+                                    <i class="el-icon-setting"></i>
+                                    <span>账号设置</span>
+                                </template>
+                                <el-menu-item index="3-1">修改密码</el-menu-item>
+                                <el-menu-item index="3-2">会员升级</el-menu-item>
+                                <el-menu-item index="3-3">修改资料</el-menu-item>
+                            </el-submenu>
+                            <el-submenu index="4">
+                                <template slot="title">
+                                    <i class="el-icon-tickets"></i>
+                                    <span>财务管理</span>
+                                </template>
+                                <el-menu-item index="4-1">在线支付</el-menu-item>
+                                <el-menu-item index="4-2">资金明细</el-menu-item>
+                                <el-menu-item index="4-3">提现记录</el-menu-item>
+                            </el-submenu>
+                        </el-menu>
+                    </el-col>
+                    <el-col :span="12" :offset="2">
+                        <el-form ref="kb-buy-form-ele" :model="kbBuyForm" style="padding:24px;" :rules="kbBuyFormRules" label-position="top" size="small"
+                            status-icon @submit.native.prevent>
+                            <h3>「淘宝、天猫、阿里」空包下单</h3>
+                            <el-form-item label="选择快递" prop="kdType">
+                                <el-select v-model="kbBuyForm.kdType" placeholder="请选择快递公司" style="width:100%;">
+                                    <el-option v-for="(tb,index) in tbKB" :label="tb.name" :value="tb.id" :key="index"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="发货地址" prop="toAddress">
+                                <el-select v-model="kbBuyForm.toAddress" placeholder="请选择发货地址" style="width:100%;">
+                                    <el-option label="发货地址1" value="shanghai"></el-option>
+                                    <el-option label="发货地址2" value="beijing"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="包裹重量（kg）" prop="packageWeight">
+                                <el-input type="age" v-model.number="kbBuyForm.packageWeight" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="收件人信息" prop="toUserInfo">
+                                <el-input type="textarea" rows="10" placeholder="例子：张三，13688888888 ，广东省 深圳市 罗湖区 深南大道102号，518000" v-model="kbBuyForm.toUserInfo"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button>检查格式是否正确</el-button>
+                                <el-button type="primary" @click="onSubmitHandler">立即下单</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                    <el-col :span="5" style="padding:24px;">
+                        <el-card class="box-card" shadow="hover">
+                            <div slot="header" class="clearfix text-center">
+                                <span style="color:#f90;">快递信息预览「{{tbKB[kbBuyForm.kdType].alias}}」</span>
+                            </div>
+                            <div class="text item">
+                                普通会员：{{tbKB[kbBuyForm.kdType].price.ptvip}} 元/单
+                            </div>
+                            <div class="text item">
+                                vip会员：{{tbKB[kbBuyForm.kdType].price.vip}} 元/单
+                            </div>
+                            <div class="text item">
+                                金牌代理商：{{tbKB[kbBuyForm.kdType].price.jpvip}} 元/单
+                            </div>
+                            <div class="text item">
+                                有无底单：有
+                            </div>
+                            <div class="text item">
+                                申请底单：12小时内
+                            </div>
+                            <div class="text item">
+                                底单收费：免费 + 内网
+                            </div>
+                            <div class="text item">
+                                签收时间：2 - 3 天
+                            </div>
+                            <div class="text item">
+                                物流显示时间：21点前下单，次日中午之前显示 {{tbKB[kbBuyForm.kdType].alias}}官网和淘宝都有记录，只用在淘宝，不同步{{tbKB[kbBuyForm.kdType].alias}}官网
+                            </div>
+                        </el-card>
+                        <el-card class="box-card" shadow="hover" style="margin-top:64px;">
+                            <div slot="header" class="clearfix text-center">
+                                <span style="color:#f90;">下单注意事项</span>
+                            </div>
+                            <div class="text item">
+                                1，提交前先点击「检查格式正确按钮」检验地址是否正确
+                            </div>
+                            <div class="text item">
+                                2，收件人信息栏一次最多输入「500」条信息
+                            </div>
+                            <div class="text item">
+                                3，收件人信息栏的格式「姓名，手机，省（空格）市（空格）县区（空格）详细地址，邮编」，严格按照格式要求来，三个逗号，三个空格，一个都不要少，也不能多
+                            </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
             </section>
             <!-- 底部导航 -->
             <nav class="footer">
