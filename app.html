@@ -431,19 +431,19 @@
                                 <p>当前账户余额：100元</p>
                             </div>
                         </el-card>
-                        <el-menu default-active="1-2">
+                        <el-menu default-active="tbKB" @select="menuSelectHandler">
                             <el-submenu index="1">
                                 <template slot="title">
                                     <i class="el-icon-upload"></i>
                                     <span>全国空包专区</span>
                                 </template>
-                                <el-menu-item index="1-1">添加/管理发货地</el-menu-item>
-                                <el-menu-item index="1-2">淘宝下单</el-menu-item>
-                                <el-menu-item index="1-3">京东下单</el-menu-item>
-                                <el-menu-item index="1-4">拼多多下单</el-menu-item>
-                                <el-menu-item index="1-5">Excel表格下单</el-menu-item>
-                                <el-menu-item index="1-6">圆通-韵达（推荐）</el-menu-item>
-                                <el-menu-item index="1-7">下单记录</el-menu-item>
+                                <el-menu-item index="manageAddress">添加/管理发货地</el-menu-item>
+                                <el-menu-item index="tbKB">淘宝下单</el-menu-item>
+                                <el-menu-item index="jdKB">京东下单</el-menu-item>
+                                <el-menu-item index="pddKB">拼多多下单</el-menu-item>
+                                <el-menu-item index="excelKB">Excel表格下单</el-menu-item>
+                                <el-menu-item index="ytKB">圆通-韵达（推荐）</el-menu-item>
+                                <el-menu-item index="orderRecored">下单记录</el-menu-item>
                             </el-submenu>
                             <el-submenu index="2">
                                 <template slot="title">
@@ -475,13 +475,13 @@
                             </el-submenu>
                         </el-menu>
                     </el-col>
-                    <el-col :span="12" :offset="2">
+                    <el-col :span="12" :offset="2" v-if="isKBBuy">
                         <el-form ref="kb-buy-form-ele" :model="kbBuyForm" style="padding:24px;" :rules="kbBuyFormRules" label-position="top" size="small"
                             status-icon @submit.native.prevent>
-                            <h3>「淘宝、天猫、阿里」空包下单</h3>
+                            <h3>「{{plantform}}」空包下单</h3>
                             <el-form-item label="选择快递" prop="kdType">
                                 <el-select v-model="kbBuyForm.kdType" placeholder="请选择快递公司" style="width:100%;">
-                                    <el-option v-for="(tb,index) in tbKB" :label="tb.name" :value="tb.id" :key="index"></el-option>
+                                    <el-option v-for="(tb,index) in kdTypeKB" :label="tb.name" :value="tb.id" :key="index"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="发货地址" prop="toAddress">
@@ -502,19 +502,19 @@
                             </el-form-item>
                         </el-form>
                     </el-col>
-                    <el-col :span="5" style="padding:24px;">
+                    <el-col :span="5" style="padding:24px;" v-if="isKBBuy">
                         <el-card class="box-card" shadow="hover">
                             <div slot="header" class="clearfix text-center">
-                                <span style="color:#f90;">快递信息预览「{{tbKB[kbBuyForm.kdType].alias}}」</span>
+                                <span style="color:#f90;">快递信息预览「{{kdTypeKB[kbBuyForm.kdType].alias}}」</span>
                             </div>
                             <div class="text item">
-                                普通会员：{{tbKB[kbBuyForm.kdType].price.ptvip}} 元/单
+                                普通会员：{{kdTypeKB[kbBuyForm.kdType].price.ptvip}} 元/单
                             </div>
                             <div class="text item">
-                                vip会员：{{tbKB[kbBuyForm.kdType].price.vip}} 元/单
+                                vip会员：{{kdTypeKB[kbBuyForm.kdType].price.vip}} 元/单
                             </div>
                             <div class="text item">
-                                金牌代理商：{{tbKB[kbBuyForm.kdType].price.jpvip}} 元/单
+                                金牌代理商：{{kdTypeKB[kbBuyForm.kdType].price.jpvip}} 元/单
                             </div>
                             <div class="text item">
                                 有无底单：有
@@ -529,7 +529,7 @@
                                 签收时间：2 - 3 天
                             </div>
                             <div class="text item">
-                                物流显示时间：21点前下单，次日中午之前显示 {{tbKB[kbBuyForm.kdType].alias}}官网和淘宝都有记录，只用在淘宝，不同步{{tbKB[kbBuyForm.kdType].alias}}官网
+                                物流显示时间：21点前下单，次日中午之前显示 {{kdTypeKB[kbBuyForm.kdType].alias}}官网和淘宝都有记录，只用在淘宝，不同步{{kdTypeKB[kbBuyForm.kdType].alias}}官网
                             </div>
                         </el-card>
                         <el-card class="box-card" shadow="hover" style="margin-top:64px;">
@@ -544,6 +544,42 @@
                             </div>
                             <div class="text item">
                                 3，收件人信息栏的格式「姓名，手机，省（空格）市（空格）县区（空格）详细地址，邮编」，严格按照格式要求来，三个逗号，三个空格，一个都不要少，也不能多
+                            </div>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="14" :offset="1" v-if="!isKBBuy" style="padding:24px;">
+                        <el-table :data="addressData" style="width: 100%">
+                            <el-table-column prop="fromName" label="发件人姓名" width="180">
+                            </el-table-column>
+                            <el-table-column prop="fromPhone" label="发货人电话" width="180">
+                            </el-table-column>
+                            <el-table-column prop="fromAddress" label="收件人所在区域">
+                            </el-table-column>
+                            <el-table-column prop="fromDetailAddress" label="收件人详细地址">
+                            </el-table-column>
+                            <el-table-column fixed="right" label="操作" width="100">
+                                <template slot-scope="scope">
+                                    <el-button type="text" size="small" @click="editAddreassHandler(scope.row)">编辑</el-button>
+                                    <el-button @click="deleteAddressHandler(scope.row)" type="text" size="small">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                    <el-col :span="5" v-if="!isKBBuy" style="padding:24px;">
+                        <el-card class="box-card" shadow="hover">
+                            <div slot="header" class="clearfix text-center">
+                                <span style="color:#f90;">注意事项</span>
+                            </div>
+                            <div class="text item">
+                                1， 请正确的填写发货信息,因为发货信息错误而导致物流对不上,不负责
+                            </div>
+                            <div class="text item">
+                                2，如出现缺少地区，请及时联系客服添加
+                            </div>
+                            <div style="padding: 14px;">
+                                <div class="bottom clearfix">
+                                    <el-button type="primary" @click="addAddressHandler">立即添加</el-button>
+                                </div>
                             </div>
                         </el-card>
                     </el-col>
@@ -660,7 +696,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogLoginVisible = false">取 消</el-button>
-                <el-button type="primary" @click="confirmLoginHandler">确 定</el-button>
+                <el-button type="primary" @click="confirmLoginHandler('loginFormEle')">确 定</el-button>
             </div>
         </el-dialog>
         <!-- 用户注册模态框 -->
@@ -731,6 +767,50 @@
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogMoreNoticeVisible = false">关 闭</el-button>
                 <el-button type="primary" @click="dialogMoreNoticeVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 添加发件人地址弹出框 -->
+        <el-dialog title="添加发件人地址" :visible.sync="dialogAddAddressVisible" width="30%" label-position="top">
+            <el-form :model="addAddressForm" ref="addAddressFormEle" :rules="addAddressFormRules" status-icon>
+                <el-form-item label="发件人姓名" prop="fromName">
+                    <el-input v-model="addAddressForm.fromName" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="发件人电话" prop="fromPhone">
+                    <el-input v-model="addAddressForm.fromPhone" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="所在区域" prop="fromAddress">
+                    <el-cascader :options="fromAddressInfo" style="width:100%;" size="small" expand-trigger="hover" v-model="addAddressForm.fromAddress">
+                    </el-cascader>
+                </el-form-item>
+                <el-form-item label="详细地址" prop="fromDetailAddress">
+                    <el-input v-model="addAddressForm.fromDetailAddress" auto-complete="off" placeholder="非必填"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogAddAddressVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmAddFromAddressHandler('addAddressFormEle')">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 编辑发件人信息 -->
+        <el-dialog title="编辑发件人地址" :visible.sync="dialogEditAddressVisible" width="30%" label-position="top">
+            <el-form :model="editAddressForm" ref="editAddressFormEle" :rules="addAddressFormRules" status-icon>
+                <el-form-item label="发件人姓名" prop="fromName">
+                    <el-input v-model="editAddressForm.fromName" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="发件人电话" prop="fromPhone">
+                    <el-input v-model="editAddressForm.fromPhone" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="所在区域" prop="fromAddress">
+                    <el-cascader :options="fromAddressInfo" separator="-" style="width:100%;" size="small" expand-trigger="hover" v-model="editAddressForm.fromAddress">
+                    </el-cascader>
+                </el-form-item>
+                <el-form-item label="详细地址" prop="fromDetailAddress">
+                    <el-input v-model="editAddressForm.fromDetailAddress" auto-complete="off" placeholder="非必填"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogEditAddressVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirmAddFromEditressHandler('editAddressFormEle')">确 定</el-button>
             </div>
         </el-dialog>
     </div>

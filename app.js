@@ -12,6 +12,41 @@ new Vue({
         callback();
       }
     };
+    var tbKB = [
+      {
+        id: 0,
+        type: 'lbkd',
+        alias: '龙邦速递',
+        name: '龙邦速递「淘宝、天猫专用」',
+        price: {
+          ptvip: 1.8,
+          vip: 1.7,
+          jpvip: 1.6
+        }
+      },
+      {
+        id: 1,
+        type: 'bskd',
+        alias: '百世快递',
+        name: '百世快递「淘宝、天猫专用」',
+        price: {
+          ptvip: 2.2,
+          vip: 2.1,
+          jpvip: 2.0
+        }
+      },
+      {
+        id: 2,
+        type: 'ytkd',
+        alias: '圆通快递',
+        name: '圆通快递「淘宝、天猫专用」',
+        price: {
+          ptvip: 1.6,
+          vip: 1.5,
+          jpvip: 1.4
+        }
+      }
+    ];
     return {
       // 当前时间
       nowDate: new Date(),
@@ -27,6 +62,10 @@ new Vue({
       dialogMoreNoticeVisible: false,
       // 会员中心
       visibleVipCenter: true,
+      // 添加发件人地址
+      dialogAddAddressVisible: false,
+      // 编辑发件人地址
+      dialogEditAddressVisible: false,
       // 登录表单
       loginForm: {
         username: '',
@@ -114,41 +153,7 @@ new Vue({
       },
       // 淘宝的空包类型
       tbKBSelceted: 0,
-      tbKB: [
-        {
-          id: 0,
-          type: 'lbkd',
-          alias: '龙邦速递',
-          name: '龙邦速递「淘宝、天猫专用」',
-          price: {
-            ptvip: 1.8,
-            vip: 1.7,
-            jpvip: 1.6
-          }
-        },
-        {
-          id: 1,
-          type: 'bskd',
-          alias: '百世快递',
-          name: '百世快递「淘宝、天猫专用」',
-          price: {
-            ptvip: 2.2,
-            vip: 2.1,
-            jpvip: 2.0
-          }
-        },
-        {
-          id: 2,
-          type: 'ytkd',
-          alias: '圆通快递',
-          name: '圆通快递「淘宝、天猫专用」',
-          price: {
-            ptvip: 1.6,
-            vip: 1.5,
-            jpvip: 1.4
-          }
-        }
-      ],
+      tbKB: tbKB,
       // 京东空包类型
       jdKBSelceted: 0,
       jdKB: [
@@ -238,6 +243,167 @@ new Vue({
           type: 'kfwkd',
           alias: '快服务快递',
           name: '快服务快递「平多多专用」',
+          price: {
+            ptvip: 0.9,
+            vip: 0.8,
+            jpvip: 0.7
+          }
+        }
+      ],
+      // 圆通空包类型
+      ytKBSelceted: 0,
+      ytKB: [
+        {
+          id: 0,
+          type: 'ytkd',
+          alias: '圆通快递',
+          name: '圆通快递「21点之前下单，2小时内揽件」',
+          price: {
+            ptvip: 0.9,
+            vip: 0.8,
+            jpvip: 0.7
+          }
+        }
+      ],
+      // excel空包类型
+      excelKB: [
+        {
+          id: 0,
+          type: 'lbkd',
+          alias: '龙邦速递',
+          name: '龙邦速递「淘宝、天猫专用」',
+          price: {
+            ptvip: 1.8,
+            vip: 1.7,
+            jpvip: 1.6
+          }
+        },
+        {
+          id: 1,
+          type: 'bskd',
+          alias: '百世快递',
+          name: '百世快递「淘宝、天猫专用」',
+          price: {
+            ptvip: 2.2,
+            vip: 2.1,
+            jpvip: 2.0
+          }
+        },
+        {
+          id: 2,
+          type: 'ytkd',
+          alias: '圆通快递',
+          name: '圆通快递「淘宝、天猫专用」',
+          price: {
+            ptvip: 1.6,
+            vip: 1.5,
+            jpvip: 1.4
+          }
+        },
+        {
+          id: 3,
+          type: 'kjkd',
+          alias: '快捷快递',
+          name: '快捷速递「淘宝、天猫、阿里专用」',
+          price: {
+            ptvip: 1.76,
+            vip: 1.66,
+            jpvip: 1.56
+          }
+        },
+        {
+          id: 4,
+          type: 'lbkd',
+          alias: '龙邦速递',
+          name: '龙邦速递「京东专用」',
+          price: {
+            ptvip: 1.4,
+            vip: 1.3,
+            jpvip: 1.2
+          }
+        },
+        {
+          id: 5,
+          type: 'stkd',
+          alias: '申通快递',
+          name: '申通快递「京东专用」',
+          price: {
+            ptvip: 1.6,
+            vip: 1.5,
+            jpvip: 1.4
+          }
+        },
+        {
+          id: 6,
+          type: 'gtkd',
+          alias: '国通快递',
+          name: '国通快递「拼多多专用」',
+          price: {
+            ptvip: 1.0,
+            vip: 0.9,
+            jpvip: 0.8
+          }
+        },
+        {
+          id: 7,
+          type: 'lbkd',
+          alias: '龙邦速递',
+          name: '龙邦速递「拼多多专用」',
+          price: {
+            ptvip: 1.1,
+            vip: 1.0,
+            jpvip: 0.9
+          }
+        },
+        {
+          id: 8,
+          alias: '申通快递',
+          type: 'stkd',
+          name: '申通快递「拼多多专用」',
+          price: {
+            ptvip: 1.4,
+            vip: 1.3,
+            jpvip: 1.2
+          }
+        },
+        {
+          id: 9,
+          type: 'bskd',
+          alias: '百世快递',
+          name: '百世快递「拼多多专用」',
+          price: {
+            ptvip: 1.5,
+            vip: 1.4,
+            jpvip: 1.3
+          }
+        },
+        {
+          id: 10,
+          type: 'yfkd',
+          alias: '亚风快递',
+          name: '亚风快递「拼多多专用」',
+          price: {
+            ptvip: 0.85,
+            vip: 0.75,
+            jpvip: 0.65
+          }
+        },
+        {
+          id: 11,
+          type: 'kfwkd',
+          alias: '快服务快递',
+          name: '快服务快递「平多多专用」',
+          price: {
+            ptvip: 0.9,
+            vip: 0.8,
+            jpvip: 0.7
+          }
+        },
+        {
+          id: 12,
+          type: 'ytkd',
+          alias: '圆通快递',
+          name: '圆通快递「全网电商平台通用」推荐',
           price: {
             ptvip: 0.9,
             vip: 0.8,
@@ -409,6 +575,10 @@ new Vue({
         packageWeight: 1.0,
         toUserInfo: ''
       },
+      kdTypeKB: tbKB,
+      plantform: '淘宝、天猫、阿里',
+      // 当前模块是否是空包下单模块
+      isKBBuy: true,
       kbBuyFormRules: {
         packageWeight: [
           {
@@ -438,9 +608,98 @@ new Vue({
             message: '发货地址不能为空'
           }
         ]
-      }
+      },
+      // 收件人地址信息
+      addressData: [
+        {
+          index: 0,
+          fromName: '王小虎',
+          fromPhone: '17770534313',
+          fromAddress: ['江苏省', '南京市', '江陵区'],
+          fromDetailAddress: '金沙江路 1518 弄'
+        },
+        {
+          index: 1,
+          fromName: '白小虎',
+          fromPhone: '17770534313',
+          fromAddress: ['浙江省', '杭州市', '西湖区'],
+          fromDetailAddress: '金沙江路 1518 弄'
+        }
+      ],
+      // 添加地址表单
+      addAddressForm: {
+        fromName: '',
+        fromAddress: [],
+        fromPhone: '',
+        fromDetailAddress: ''
+      },
+      // 编辑收件人信息
+      editAddressForm: {
+        index: 0,
+        fromName: '',
+        fromAddress: [],
+        fromPhone: '',
+        fromDetailAddress: ''
+      },
+      // 添加地址表单验证规则
+      addAddressFormRules: {
+        fromName: [
+          {
+            required: true,
+            message: '请填写发件人名字'
+          }
+        ],
+        fromAddress: [
+          {
+            required: true,
+            message: '请选择发件地址'
+          }
+        ],
+        fromPhone: [
+          {
+            required: true,
+            message: '请填写发件人电话'
+          }
+        ]
+      },
+      // 省份信息
+      fromAddressInfo: [
+        {
+          value: '江苏省',
+          label: '江苏省',
+          children: [
+            {
+              value: '南京市',
+              label: '南京市',
+              children: [
+                {
+                  value: '江陵区',
+                  label: '江陵区'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          value: '浙江省',
+          label: '浙江省',
+          children: [
+            {
+              value: '杭州市',
+              label: '杭州市',
+              children: [
+                {
+                  value: '西湖区',
+                  label: '西湖区'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     };
   },
+  computed: {},
   methods: {
     // 用户登录
     userLoginHandler: function() {
@@ -488,15 +747,14 @@ new Vue({
       this.visibleVipCenter = true;
     },
     // 确认登录
-    confirmLoginHandler: function() {
-      var _this = this;
-      this.$refs['loginFormEle'].validate(function(valid, fildes) {
+    confirmLoginHandler: function(formName) {
+      this.$refs[formName].validate((valid, fildes) => {
         if (valid) {
-          _this.$message({
+          this.$message({
             message: '登录成功',
             type: 'success'
           });
-          _this.dialogLoginVisible = false;
+          this.dialogLoginVisible = false;
         } else {
           return false;
         }
@@ -521,6 +779,96 @@ new Vue({
       this.$message({
         message: '购买成功',
         type: 'success'
+      });
+    },
+    // 菜单change事件
+    menuSelectHandler: function(index, indexPath) {
+      if (index !== 'manageAddress' && index !== 'orderRecored') {
+        this.kdTypeKB = this[index];
+        this.isKBBuy = true;
+      }
+      switch (index) {
+        case 'tbKB':
+          this.plantform = '淘宝、天猫、阿里';
+          break;
+        case 'jdKB':
+          this.plantform = '京东';
+          break;
+        case 'pddKB':
+          this.plantform = '拼多多';
+          break;
+        case 'ytKB':
+          this.plantform = '圆通-韵达';
+          break;
+        case 'manageAddress':
+          this.isKBBuy = false;
+          break;
+        case 'orderRecored':
+          this.isKBBuy = false;
+          break;
+        default:
+          this.plantform = '淘宝、天猫、阿里';
+          break;
+      }
+    },
+    // 编辑发件人地址
+    editAddreassHandler: function(row) {
+      this.dialogEditAddressVisible = true;
+      this.editAddressForm = row;
+    },
+    // 确认编辑
+    confirmAddFromEditressHandler: function(formName) {
+      this.$refs[formName].validate((valid, fildes) => {
+        if (valid) {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          });
+          this.dialogEditAddressVisible = false;
+          this.addressData[this.editAddressForm.index] = this.editAddressForm;
+        } else {
+          return;
+        }
+      });
+    },
+    // 删除发件人地址
+    deleteAddressHandler: function(row) {
+      this.$confirm('此操作将永久删除该地址, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.addressData.splice(row.index, 1);
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+    },
+    // 添加发件人地址
+    addAddressHandler: function() {
+      this.dialogAddAddressVisible = true;
+    },
+    // 确认添加
+    confirmAddFromAddressHandler: function(formName) {
+      this.$refs[formName].validate((valid, fildes) => {
+        if (valid) {
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          });
+          this.dialogAddAddressVisible = false;
+          this.addressData.push(this.addAddressForm);
+        } else {
+          return false;
+        }
       });
     }
   }
